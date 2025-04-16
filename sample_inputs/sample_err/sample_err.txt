@@ -19,3 +19,9 @@ y = 10;
 
 write "21) + wont work with strings";
 write "x+y", "x"+"y";
+
+write "For loop with non-boolean condition";
+int count;
+for (count = 0; count; count = count + 1) { // 'count' (int) used as condition
+    write "This should not compile";
+}

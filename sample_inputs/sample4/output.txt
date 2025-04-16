@@ -1,0 +1,30 @@
+push S "<For loop tests>"
+print 1
+push S "Simple count up:"
+print 1
+push I 0
+save i
+push I 0
+save i
+load i
+pop
+label 0
+load i
+push I 5
+lt I
+fjmp 3
+jmp 2
+label 1
+load i
+push I 1
+add I
+save i
+load i
+pop
+jmp 0
+label 2
+push S "i = "
+load i
+print 2
+jmp 1
+label 3

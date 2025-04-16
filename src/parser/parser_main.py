@@ -19,14 +19,6 @@ class SyntaxErrorListener(ErrorListener):
 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         # Funkce pro zpracování syntaktických chyb
-        # Argumenty:
-        #    recognizer: Rozpoznávač, kde došlo k chybě
-        #    offendingSymbol: Token, který způsobil chybu
-        #    line: Číslo řádku, kde došlo k chybě
-        #    column: Číslo sloupce, kde došlo k chybě
-        #    msg: Chybová zpráva
-        #    e: Výjimka, která způsobila chybu (pokud existuje)
-
         error_message = f"Syntax error at line {line}, column {column}: {msg}"
         self.syntax_errors.append(error_message)
         

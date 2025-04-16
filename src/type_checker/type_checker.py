@@ -184,6 +184,32 @@ class TypeChecker(LanguageVisitor):
         
         return None
     
+    def visitForStatement(self, ctx:LanguageParser.ForStatementContext):
+        # Funkce pro visit for statementu.
+
+        # Navštívíme inicializační výraz (pokud existuje)
+        if ctx.init:
+            self.visit(ctx.init)
+
+        # Navštívíme podmínkový výraz (pokud existuje) a zkontrolujeme typ
+        condition_type = Type.BOOL
+        
+        if ctx.cond:
+            condition_type = self.visit(ctx.cond)
+            
+            # Kontrolujeme, zda je podmínka boolean
+            if condition_type != Type.BOOL and condition_type != Type.ERROR:
+                self.add_error(ctx.cond, f"For loop condition must be of type bool, but got {Type.to_string(condition_type)}")
+
+        # Navštívíme krokovací výraz (pokud existuje)
+        if ctx.step:
+            self.visit(ctx.step)
+
+        # Navštívíme tělo cyklu
+        self.visit(ctx.statement())
+
+        return None
+    
     # -------------------------------------------------------------------------------
     # Visitory pro jednotlivé výrazy, které se používají v našem jazyce:
     
@@ -258,15 +284,6 @@ class TypeChecker(LanguageVisitor):
         return self.add_error(ctx, f"Logical NOT can only be applied to boolean type, but got {Type.to_string(operand_type)}")
     
     def visitMultiplicativeExpr(self, ctx):
-        """
-        Visit a multiplicative expression (* / %).
-        
-        Args:
-            ctx: The multiplicative expression context
-            
-        Returns:
-            The type of the result
-        """
         # Funkce pro visit výrazu pro násobení, dělení a modulo
 
         # Získáme typy levého a pravého operandu (výrazu)

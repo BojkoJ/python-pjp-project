@@ -1,0 +1,7 @@
+write "<For loop tests>";
+
+write "Simple count up:";
+int i;
+for (i = 0; i < 5; i = i + 1) {
+    write "i = ", i;
+}

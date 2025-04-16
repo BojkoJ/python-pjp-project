@@ -182,7 +182,7 @@ class CodeGenerator(LanguageVisitor):
         return None
 
     def visitWhileStatement(self, ctx):
-        # Funkce pro visit while statementu.
+        # Funkce pro visit while statementu
 
         # Získáme nové návěští pro začátek a konec cyklu
         start_label = self.get_new_label()
@@ -207,7 +207,61 @@ class CodeGenerator(LanguageVisitor):
         self.add_instruction(f"label {end_label}")
 
         return None
+    
+    def visitForStatement(self, ctx):
+        # Funkce pro visit for statementu
 
+        # Vytvoření labelů (návěští) pro jumpování s helper funkcí
+        condition_label = self.get_new_label() # Návěští pro podmínku (condition)
+        step_label = self.get_new_label() # Návěští pro krok (step)
+        body_label = self.get_new_label() # Návěští pro tělo cyklu (body)
+        end_label = self.get_new_label() # Návěští pro konec cyklu (end)
+
+        # 1. generovani pro první část for cyklu (init)
+        if ctx.init:
+            self.visit(ctx.init)
+            # Výsledek inicializace zahodíme
+            self.add_instruction("pop")
+
+        # 2. Návěští pro podmínku
+        self.add_instruction(f"label {condition_label}")
+
+        # 3. Generování kódu pro podmínku (condition)
+        if ctx.cond:
+            self.visit(ctx.cond)
+            # Pokud je podmínka false, skočíme na konec cyklu
+            self.add_instruction(f"fjmp {end_label}")
+
+        # skočíme na tělo (jmp na návěští pro tělo)
+        self.add_instruction(f"jmp {body_label}")
+
+        # Návěští pro krok (step)
+        self.add_instruction(f"label {step_label}")
+
+        # 4. Generování kódu pro krok (step)
+        if ctx.step:
+            self.visit(ctx.step)
+            # Výsledek kroku se zahodíme
+            self.add_instruction("pop")
+
+        # Po kroku skočíme zpět na kontrolu podmínky
+        self.add_instruction(f"jmp {condition_label}")
+
+        # Návěští pro tělo cyklus
+        self.add_instruction(f"label {body_label}")
+
+        # Tady začne tělo cyklu:
+        # 5. Generování kódu pro tělo cyklu (body)
+        self.visit(ctx.statement())
+
+        # Po těle cyklu skočíme na krok (step)
+        self.add_instruction(f"jmp {step_label}")
+
+        # 6. Návěští pro konec cyklu
+        self.add_instruction(f"label {end_label}")
+
+        return None
+        
     def visitVariableExpr(self, ctx):
         # Funkce pro visit výrazu proměnné.
 
@@ -230,29 +284,32 @@ class CodeGenerator(LanguageVisitor):
         literal = ctx.literal()
 
         # Zkontrolujeme, o jaký literál se jedná
-        if literal.IntegerLiteral() is not None:
+        if literal.IntegerLiteral() is not None: # INT
             value = literal.IntegerLiteral().getText()
             self.add_instruction(f"push I {value}")
             return Type.INT
-        elif literal.FloatLiteral() is not None: 
+        
+        elif literal.FloatLiteral() is not None: # FLOAT
             value = literal.FloatLiteral().getText()
             self.add_instruction(f"push F {value}")
             return Type.FLOAT
-        elif literal.BooleanLiteral() is not None:
+        
+        elif literal.BooleanLiteral() is not None: # BOOL
             value_text = literal.BooleanLiteral().getText()
             instruction_value = value_text.lower()
             if instruction_value not in ['true', 'false']:
                  raise ValueError(f"Interní chyba: Neočekávaný text boolean literálu '{value_text}'")
             self.add_instruction(f"push B {instruction_value}")
             return Type.BOOL
-        elif literal.StringLiteral() is not None:
+        
+        elif literal.StringLiteral() is not None: # STRING
             value = literal.StringLiteral().getText()
             # Odstraníme okolní uvozovky z ANTLR tokenu
             if len(value) >= 2 and value.startswith('"') and value.endswith('"'):
                 processed_value = value[1:-1]
             else:
-                # Nemělo by nastat s danou gramatikou, ale ošetříme defenzivně
                 processed_value = value
+                
             self.add_instruction(f'push S "{processed_value}"') # Použijeme processed_value
             return Type.STRING
 

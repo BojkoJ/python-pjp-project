@@ -12,6 +12,7 @@ statement
     | blockStatement
     | ifStatement
     | whileStatement
+    | forStatement
     ;
 
 emptyStatement: ';';
@@ -33,6 +34,8 @@ blockStatement: '{' statement* '}';
 ifStatement: 'if' '(' expression ')' statement ('else' statement)?;
 
 whileStatement: 'while' '(' expression ')' statement;
+
+forStatement: 'for' '(' init=expression? ';' cond=expression? ';' step=expression? ')' statement;
 
 expression
     : literal                                             # literalExpr
