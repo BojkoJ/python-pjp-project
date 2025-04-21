@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 from antlr4 import *
 from src.parser.LanguageParser import LanguageParser
 from src.parser.LanguageVisitor import LanguageVisitor
@@ -558,6 +559,72 @@ class CodeGenerator(LanguageVisitor):
 
         # Výsledek porovnání je vždy bool
         return Type.BOOL
+    
+    def visitTernaryExpr(self, ctx: LanguageParser.TernaryExprContext):
+        # Funkce pro návštěvu ternárního výrazu: cond ? th : el
+
+        false_label = self.get_new_label()
+        end_label = self.get_new_label()
+
+        # 1. Vyhodnocení podmínky (cond)
+        # Nepotřebujeme zde typ, pouze generování kódu
+        self.visit(ctx.cond) # Generuje kód pro podmínku, zanechá boolean na zásobníku
+
+        # 2. Skok na false_label, pokud je podmínka nepravdivá
+        self.add_instruction(f"fjmp {false_label}")
+
+        # 3. Vyhodnocení výrazu pro případ pravdivé podmínky (th)
+        true_type = self.visit(ctx.th) # Generuje kód, zanechá hodnotu na zásobníku
+        # Potřebujeme typ pro případné pozdější povýšení typu
+
+        # 4. Skok na konec po vyhodnocení větve pro pravdivou podmínku
+        self.add_instruction(f"jmp {end_label}")
+
+        # 5. Přidání návěští pro nepravdivou podmínku
+        self.add_instruction(f"label {false_label}")
+
+        # 6. Vyhodnocení výrazu pro případ nepravdivé podmínky (el)
+        false_type = self.visit(ctx.el) # Generuje kód, zanechá hodnotu na zásobníku
+
+        # 7. Přidání koncového návěští (hodnota z pravdivé nebo nepravdivé větve je nyní na zásobníku)
+        self.add_instruction(f"label {end_label}")
+
+        # Určení výsledného typu na základě logiky kontroly typů (pro návratovou hodnotu)
+        # a případné přidání itof, pokud je potřeba (i když to je složité)
+        result_type = Type.ERROR
+        if true_type == false_type:
+            result_type = true_type
+        elif (true_type == Type.FLOAT and false_type == Type.INT) or \
+             (true_type == Type.INT and false_type == Type.FLOAT):
+            result_type = Type.FLOAT
+
+        # Vrátíme určený výsledný typ (jak je odvozen podle pravidel kontroly typů)
+        return result_type
+
+    def visitAppendExpr(self, ctx: LanguageParser.AppendExprContext):
+        # Zpracovává výrazy typu: file_handle << value
+        # Generuje kód pro:
+        # 1. Načtení handle souboru (levý operand)
+        # 2. Vyhodnocení výrazu hodnoty (pravý operand)
+        # 3. Volání fappend
+
+        # Navštívíme levý výraz (měl by to být handle souboru)
+        left_type = self.visit(ctx.expression(0))
+        if left_type != Type.FILE:
+            # Toto by mělo být ideálně zachyceno kontrolou typů
+            print(f"Varování: Levý operand '<<' není Type.FILE (dostal {left_type}). Generování kódu může selhat.", file=sys.stderr)
+
+        # Navštívíme pravý výraz (hodnota pro připojení)
+        right_type = self.visit(ctx.expression(1))
+        # Pro generování zde není potřeba kontrola typů, interpret zpracovává konverzi
+
+        # Přidáme instrukci fappend
+        # Interpreter očekává: hodnotu, pak handle na zásobníku
+        # fappend spotřebuje obojí, vrátí handle zpět
+        self.add_instruction("fappend")
+
+        # Výsledkem výrazu připojení je samotný handle souboru
+        return Type.FILE
 
     def visitAndExpr(self, ctx):
         # Funkce pro visit logického AND výrazu.

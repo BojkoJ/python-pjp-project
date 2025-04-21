@@ -111,6 +111,33 @@ class TypeChecker(LanguageVisitor):
         
         return None
     
+    def visitTernaryExpr(self, ctx: LanguageParser.TernaryExprContext):
+        # Funkce pro visit ternárního výrazu (cond ? th : el).
+
+        # Navštívíme podmínku, true výraz a false výraz
+        condition_type = self.visit(ctx.cond)
+        true_type = self.visit(ctx.th)
+        false_type = self.visit(ctx.el)
+
+        if condition_type == Type.ERROR or true_type == Type.ERROR or false_type == Type.ERROR:
+            return Type.ERROR
+
+        # Kontrola jestli je podmínka boolean
+        if condition_type != Type.BOOL:
+            self.add_error(ctx.cond, f"Ternary operator condition must be boolean, but got {Type.to_string(condition_type)}")
+            return Type.ERROR
+
+        # Kontrola kompatibility typů výsledného výrazu
+        if true_type == false_type:
+            return true_type 
+        elif true_type == Type.INT and false_type == Type.FLOAT:
+            return Type.FLOAT
+        elif true_type == Type.FLOAT and false_type == Type.INT:
+            return Type.FLOAT
+        else:
+            return self.add_error(ctx, f"Type mismatch in ternary operator results: cannot unify {Type.to_string(true_type)} and {Type.to_string(false_type)}")
+
+    
     def visitExpressionStatement(self, ctx):
         # Funkce pro visit statementu pro výraz.
         self.visit(ctx.expression())

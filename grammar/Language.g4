@@ -49,6 +49,7 @@ expression
     | <assoc=left> expression ('==' | '!=') expression    # equalityExpr
     | <assoc=left> expression '&&' expression             # andExpr
     | <assoc=left> expression '||' expression             # orExpr
+    | cond=expression '?' th=expression ':' el=expression  # TernaryExpr
     | <assoc=right> ID '=' expression                     # assignmentExpr
     ;
 

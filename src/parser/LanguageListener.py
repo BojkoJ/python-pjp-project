@@ -1,4 +1,4 @@
-# Generated from c:/Users/roryb/Desktop/PJP/project-py/grammar/Language.g4 by ANTLR 4.13.1
+# Generated from c:/Users/roryb/Desktop/PJP/project-py-base/grammar/Language.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
     from .LanguageParser import LanguageParser
@@ -116,12 +116,57 @@ class LanguageListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by LanguageParser#forStatement.
+    def enterForStatement(self, ctx:LanguageParser.ForStatementContext):
+        pass
+
+    # Exit a parse tree produced by LanguageParser#forStatement.
+    def exitForStatement(self, ctx:LanguageParser.ForStatementContext):
+        pass
+
+
     # Enter a parse tree produced by LanguageParser#assignmentExpr.
     def enterAssignmentExpr(self, ctx:LanguageParser.AssignmentExprContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#assignmentExpr.
     def exitAssignmentExpr(self, ctx:LanguageParser.AssignmentExprContext):
+        pass
+
+
+    # Enter a parse tree produced by LanguageParser#orExpr.
+    def enterOrExpr(self, ctx:LanguageParser.OrExprContext):
+        pass
+
+    # Exit a parse tree produced by LanguageParser#orExpr.
+    def exitOrExpr(self, ctx:LanguageParser.OrExprContext):
+        pass
+
+
+    # Enter a parse tree produced by LanguageParser#additiveExpr.
+    def enterAdditiveExpr(self, ctx:LanguageParser.AdditiveExprContext):
+        pass
+
+    # Exit a parse tree produced by LanguageParser#additiveExpr.
+    def exitAdditiveExpr(self, ctx:LanguageParser.AdditiveExprContext):
+        pass
+
+
+    # Enter a parse tree produced by LanguageParser#relationalExpr.
+    def enterRelationalExpr(self, ctx:LanguageParser.RelationalExprContext):
+        pass
+
+    # Exit a parse tree produced by LanguageParser#relationalExpr.
+    def exitRelationalExpr(self, ctx:LanguageParser.RelationalExprContext):
+        pass
+
+
+    # Enter a parse tree produced by LanguageParser#parenExpr.
+    def enterParenExpr(self, ctx:LanguageParser.ParenExprContext):
+        pass
+
+    # Exit a parse tree produced by LanguageParser#parenExpr.
+    def exitParenExpr(self, ctx:LanguageParser.ParenExprContext):
         pass
 
 
@@ -161,33 +206,6 @@ class LanguageListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by LanguageParser#orExpr.
-    def enterOrExpr(self, ctx:LanguageParser.OrExprContext):
-        pass
-
-    # Exit a parse tree produced by LanguageParser#orExpr.
-    def exitOrExpr(self, ctx:LanguageParser.OrExprContext):
-        pass
-
-
-    # Enter a parse tree produced by LanguageParser#additiveExpr.
-    def enterAdditiveExpr(self, ctx:LanguageParser.AdditiveExprContext):
-        pass
-
-    # Exit a parse tree produced by LanguageParser#additiveExpr.
-    def exitAdditiveExpr(self, ctx:LanguageParser.AdditiveExprContext):
-        pass
-
-
-    # Enter a parse tree produced by LanguageParser#relationalExpr.
-    def enterRelationalExpr(self, ctx:LanguageParser.RelationalExprContext):
-        pass
-
-    # Exit a parse tree produced by LanguageParser#relationalExpr.
-    def exitRelationalExpr(self, ctx:LanguageParser.RelationalExprContext):
-        pass
-
-
     # Enter a parse tree produced by LanguageParser#multiplicativeExpr.
     def enterMultiplicativeExpr(self, ctx:LanguageParser.MultiplicativeExprContext):
         pass
@@ -197,21 +215,21 @@ class LanguageListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by LanguageParser#parenExpr.
-    def enterParenExpr(self, ctx:LanguageParser.ParenExprContext):
-        pass
-
-    # Exit a parse tree produced by LanguageParser#parenExpr.
-    def exitParenExpr(self, ctx:LanguageParser.ParenExprContext):
-        pass
-
-
     # Enter a parse tree produced by LanguageParser#equalityExpr.
     def enterEqualityExpr(self, ctx:LanguageParser.EqualityExprContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#equalityExpr.
     def exitEqualityExpr(self, ctx:LanguageParser.EqualityExprContext):
+        pass
+
+
+    # Enter a parse tree produced by LanguageParser#TernaryExpr.
+    def enterTernaryExpr(self, ctx:LanguageParser.TernaryExprContext):
+        pass
+
+    # Exit a parse tree produced by LanguageParser#TernaryExpr.
+    def exitTernaryExpr(self, ctx:LanguageParser.TernaryExprContext):
         pass
 
 
