@@ -1,0 +1,58 @@
+write "<Ternary Operator Tests>";
+
+write "Simple int result:";
+int x;
+x = true ? 10 : 20; // x = 10
+write "x (10): ", x;
+x = false ? 10 : 20; // x = 20
+write "x (20): ", x;
+
+write "Simple float result:";
+float y;
+y = true ? 1.5 : 2.5; // y = 1.5
+write "y (1.5): ", y;
+y = false ? 1.5 : 2.5; // y = 2.5
+write "y (2.5): ", y;
+
+write "Simple string result:";
+string s;
+s = true ? "apple" : "banana"; // s = "apple"
+write "s (apple): ", s;
+s = false ? "apple" : "banana"; // s = "banana"
+write "s (banana): ", s;
+
+write "Variable condition:";
+bool condition;
+condition = 1 < 2; // true
+int z;
+z = condition ? 100 : 200; // z = 100
+write "z (100): ", z;
+condition = 5 < 2; // false
+z = condition ? 100 : 200; // z = 200
+write "z (200): ", z;
+
+write "Mixed int/float results (promote to float):";
+float f;
+f = true ? 5 : 2.5; // f = 5.0
+write "f (5.0): ", f;
+f = false ? 5 : 2.5; // f = 2.5
+write "f (2.5): ", f;
+f = true ? 5.5 : 2; // f = 5.5
+write "f (5.5): ", f;
+f = false ? 5.5 : 2; // f = 2.0
+write "f (2.0): ", f;
+
+write "Nested ternary:";
+int nested;
+nested = true ? (1 > 0 ? 11 : 12) : 20; // nested = 11
+write "nested (11): ", nested;
+nested = false ? 10 : (5 == 5 ? 21 : 22); // nested = 21
+write "nested (21): ", nested;
+nested = true ? 1 : (false ? 2 : 3); // nested = 1
+write "nested (1): ", nested;
+
+write "Ternary in write statement:";
+write "Result (hello): ", (10 > 5 ? "hello" : "world");
+write "Result (200): ", (false ? 100 : 200);
+
+write "<End of Ternary Operator Tests>";

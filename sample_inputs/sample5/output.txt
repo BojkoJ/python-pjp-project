@@ -1,0 +1,281 @@
+push S "<Ternary Operator Tests>"
+print 1
+push S "Simple int result:"
+print 1
+push I 0
+save x
+push B true
+fjmp 0
+push I 10
+jmp 1
+label 0
+push I 20
+label 1
+save x
+load x
+pop
+push S "x (10): "
+load x
+print 2
+push B false
+fjmp 2
+push I 10
+jmp 3
+label 2
+push I 20
+label 3
+save x
+load x
+pop
+push S "x (20): "
+load x
+print 2
+push S "Simple float result:"
+print 1
+push F 0.0
+save y
+push B true
+fjmp 4
+push F 1.5
+jmp 5
+label 4
+push F 2.5
+label 5
+save y
+load y
+pop
+push S "y (1.5): "
+load y
+print 2
+push B false
+fjmp 6
+push F 1.5
+jmp 7
+label 6
+push F 2.5
+label 7
+save y
+load y
+pop
+push S "y (2.5): "
+load y
+print 2
+push S "Simple string result:"
+print 1
+push S ""
+save s
+push B true
+fjmp 8
+push S "apple"
+jmp 9
+label 8
+push S "banana"
+label 9
+save s
+load s
+pop
+push S "s (apple): "
+load s
+print 2
+push B false
+fjmp 10
+push S "apple"
+jmp 11
+label 10
+push S "banana"
+label 11
+save s
+load s
+pop
+push S "s (banana): "
+load s
+print 2
+push S "Variable condition:"
+print 1
+push B false
+save condition
+push I 1
+push I 2
+lt I
+save condition
+load condition
+pop
+push I 0
+save z
+load condition
+fjmp 12
+push I 100
+jmp 13
+label 12
+push I 200
+label 13
+save z
+load z
+pop
+push S "z (100): "
+load z
+print 2
+push I 5
+push I 2
+lt I
+save condition
+load condition
+pop
+load condition
+fjmp 14
+push I 100
+jmp 15
+label 14
+push I 200
+label 15
+save z
+load z
+pop
+push S "z (200): "
+load z
+print 2
+push S "Mixed int/float results (promote to float):"
+print 1
+push F 0.0
+save f
+push B true
+fjmp 16
+push I 5
+jmp 17
+label 16
+push F 2.5
+label 17
+save f
+load f
+pop
+push S "f (5.0): "
+load f
+print 2
+push B false
+fjmp 18
+push I 5
+jmp 19
+label 18
+push F 2.5
+label 19
+save f
+load f
+pop
+push S "f (2.5): "
+load f
+print 2
+push B true
+fjmp 20
+push F 5.5
+jmp 21
+label 20
+push I 2
+label 21
+save f
+load f
+pop
+push S "f (5.5): "
+load f
+print 2
+push B false
+fjmp 22
+push F 5.5
+jmp 23
+label 22
+push I 2
+label 23
+save f
+load f
+pop
+push S "f (2.0): "
+load f
+print 2
+push S "Nested ternary:"
+print 1
+push I 0
+save nested
+push B true
+fjmp 24
+push I 1
+push I 0
+gt I
+fjmp 26
+push I 11
+jmp 27
+label 26
+push I 12
+label 27
+jmp 25
+label 24
+push I 20
+label 25
+save nested
+load nested
+pop
+push S "nested (11): "
+load nested
+print 2
+push B false
+fjmp 28
+push I 10
+jmp 29
+label 28
+push I 5
+push I 5
+eq I
+fjmp 30
+push I 21
+jmp 31
+label 30
+push I 22
+label 31
+label 29
+save nested
+load nested
+pop
+push S "nested (21): "
+load nested
+print 2
+push B true
+fjmp 32
+push I 1
+jmp 33
+label 32
+push B false
+fjmp 34
+push I 2
+jmp 35
+label 34
+push I 3
+label 35
+label 33
+save nested
+load nested
+pop
+push S "nested (1): "
+load nested
+print 2
+push S "Ternary in write statement:"
+print 1
+push S "Result (hello): "
+push I 10
+push I 5
+gt I
+fjmp 36
+push S "hello"
+jmp 37
+label 36
+push S "world"
+label 37
+print 2
+push S "Result (200): "
+push B false
+fjmp 38
+push I 100
+jmp 39
+label 38
+push I 200
+label 39
+print 2
+push S "<End of Ternary Operator Tests>"
+print 1
