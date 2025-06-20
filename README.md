@@ -2,19 +2,6 @@
 
 A complete compiler and interpreter implementation for a custom programming language built with ANTLR4. This project demonstrates the full compilation pipeline from source code to execution, including lexical analysis, parsing, semantic analysis (type checking), code generation, and interpretation.
 
-## 📋 Table of Contents
-
--   [Overview](#overview)
--   [Features](#features)
--   [Language Syntax](#language-syntax)
--   [Project Structure](#project-structure)
--   [Installation](#installation)
--   [Usage](#usage)
--   [Examples](#examples)
--   [Architecture](#architecture)
--   [Sample Programs](#sample-programs)
--   [Contributing](#contributing)
-
 ## 🎯 Overview
 
 This project implements a compiler and interpreter for a statically-typed programming language that supports:
